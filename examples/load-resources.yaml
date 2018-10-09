@@ -1,0 +1,26 @@
+---
+regions:
+  - id: "CLOUD"
+    tier: 0
+    location: "46.0689023,11.1502593"
+
+  - id: "EDGEA"
+    tier: 1
+    location: "41.3741689,2.1512547"
+
+relationships:
+  - id: "CLOUD-EDGEA"
+    region_id: "CLOUD"
+    endpoint_a: "CLOUD"
+    endpoint_b: "EDGEA"
+    latency: 20000
+    status: "up"
+    bandwidth_available: 100
+    bandwidth_capacity: 100
+
+externalendpoints:
+  - id: "cam1"
+    region_id: 'EDGEA'
+    type: "camera"
+    description: "Traffic street camera"
+    location: "41.3739591,2.1497465"

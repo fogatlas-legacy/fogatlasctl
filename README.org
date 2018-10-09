@@ -1,0 +1,131 @@
+#+OPTIONS: ':nil *:t -:t ::t <:t H:3 \n:nil ^:t arch:headline
+#+OPTIONS: author:t broken-links:nil c:nil creator:nil
+#+OPTIONS: d:(not "LOGBOOK") date:t e:t email:nil f:t inline:t num:nil
+#+OPTIONS: p:nil pri:nil prop:nil stat:t tags:t tasks:t tex:t
+#+OPTIONS: timestamp:t title:t toc:t todo:t |:t
+#+TITLE: FogAtlas Command Line Interface (CLI)
+#+AUTHOR: FBK CREATE-NET
+#+LANGUAGE: en
+#+SELECT_TAGS: export
+#+EXCLUDE_TAGS: noexport
+#+CREATOR: Emacs 25.1.1 (Org mode 9.0.5)
+
+=fogatlasctl= or =factl= is the command line interface of FogAtlas
+
+* Description
+  fogatlasctl offer a CLI on the FogAltas API
+  For a detailed description of the API see the corresponding swagger.yaml file or the API documentation at: http://apispec-fogatlas.fbk.eu
+* How to install
+  #+BEGIN_SRC
+  go install github.com/fogatlas/fogatlasctl
+  #+END_SRC
+
+  The CLI will then be available at =$GOPATH/bin/fogatlasctl=. A convenient alias can be created with:
+  #+BEGIN_SRC sh
+  alias factl='$GOPATH/bin/fogatlasctl'
+  #+END_SRC
+* How to build on your own
+  Download the repository
+  #+BEGIN_SRC
+  git clone git@github.com:fogatlas/fogatlasctl.git
+  #+END_SRC
+
+  Get dependencies
+  #+BEGIN_SRC
+  dep ensure
+  #+END_SRC
+
+  Build with
+  #+BEGIN_SRC
+  mkdir bin
+  go build -o bin/fogatlasctl fogatlasctl.go
+  #+END_SRC
+* How to run
+  See detailed help with:
+  #+BEGIN_SRC sh
+  go run main.go --help
+  #+END_SRC
+* Examples
+  Note: in order to create/update a resource, a json file must be provided. Its format must be
+  compliant with the API definition (see swagger.yaml). Some examples are provided in the example directory.
+
+  Retrieve all the resources of a given type
+  #+BEGIN_SRC
+  fogatlasctl get regions
+  +------+----------+------+-----------------+
+  |  ID  | LOCATION | TIER | RELATIONSHIP ID |
+  +------+----------+------+-----------------+
+  | reg1 | Munich   |    0 |                 |
+  | reg2 | Trento   |    1 | rel1,rel2       |
+  | reg3 | Povo     |    2 | rel3            |
+  +------+----------+------+-----------------+
+  #+END_SRC
+
+  Retrieve all the resources of a given type specifying the API endpoint
+  #+BEGIN_SRC
+  fogatlasctl get --endpoint=127.0.0.1:8080 nodes
+  +---------+--------------+--------------+--------------+----------+-------------+--------------+----------------+-----------------+--------------+---------------+--------+
+  |   ID    | ARCHITECTURE |   VERSION    | DISTRIBUTION | REGIONID | CPUCAPACITY | CPUAVAILABLE | MEMORYCAPACITY | MEMORYAVAILABLE | DISKCAPACITY | DISKAVAILABLE | STATUS |
+  +---------+--------------+--------------+--------------+----------+-------------+--------------+----------------+-----------------+--------------+---------------+--------+
+  | node12  | AMD64        | Ubuntu 16.04 | Linux        | reg2     | 10000m      | 10000m       | 10Gi           | 10Gi            | 50Gi         | 50Gi          | up     |
+  | node32  | AMD64        | Ubuntu 16.04 | Linux        | reg2     | 10000m      | 10000m       | 10Gi           | 10Gi            | 50Gi         | 50Gi          | up     |
+  | node42  | AMD64        | Ubuntu 16.04 | Linux        | reg2     | 10000m      | 10000m       | 10Gi           | 10Gi            | 50Gi         | 50Gi          | up     |
+  | node11  | AMD64        | Ubuntu 16.04 | Linux        | reg1     | 100000m     | 100000m      | 100Gi          | 100Gi           | 500Gi        | 500Gi         | up     |
+  | node21  | AMD64        | Ubuntu 16.04 | Linux        | reg1     | 100000m     | 100000m      | 100Gi          | 100Gi           | 500Gi        | 500Gi         | up     |
+  | node22  | AMD64        | Ubuntu 16.04 | Linux        | reg2     | 10000m      | 10000m       | 10Gi           | 10Gi            | 50Gi         | 50Gi          | up     |
+  | node13  | AMD64        | Ubuntu 16.04 | Linux        | reg3     | 4000m       | 4000m        | 4Gi            | 4Gi             | 20Gi         | 20Gi          | up     |
+  | node101 | AMD64        | Ubuntu 16.04 | Linux        | reg1     | 100000m     | 100000m      | 100Gi          | 100Gi           | 500Gi        | 500Gi         | up     |
+  | node31  | AMD64        | Ubuntu 16.04 | Linux        | reg1     | 100000m     | 100000m      | 100Gi          | 100Gi           | 500Gi        | 500Gi         | up     |
+  | node41  | AMD64        | Ubuntu 16.04 | Linux        | reg1     | 100000m     | 100000m      | 100Gi          | 100Gi           | 500Gi        | 500Gi         | up     |
+  +---------+--------------+--------------+--------------+----------+-------------+--------------+----------------+-----------------+--------------+---------------+--------+
+  #+END_SRC
+
+  Retrieve a given resource
+  #+BEGIN_SRC
+  fogatlasctl get --id=reg3 regions
+  +------+----------+------+-----------------+
+  |  ID  | LOCATION | TIER | RELATIONSHIP ID |
+  +------+----------+------+-----------------+
+  | reg3 | Povo     |    2 | rel3            |
+  +------+----------+------+-----------------+
+  #+END_SRC
+
+  Create a resource
+  #+BEGIN_SRC
+  fogatlasctl put --id=reg100 --file=./example/region.json regions
+  #+END_SRC
+
+  Delete a resource
+  #+BEGIN_SRC
+  fogatlasctl delete --id=reg100 regions
+  #+END_SRC
+** Example deployment on a default test infra
+   The default test infra is created using this specification: [[file:examples/load-resources.yaml][default-infra]]
+
+   Submit the deployment =default-deployment= with
+   #+BEGIN_SRC sh
+   FOGATLAS_ENDPOINT='FOGATLAS_APISERVER_IP:FOGATLAS_APISERVER_PORT'
+   ./fogatlasctl put --endpoint=$FOGATLAS_ENDPOINT --id="default-deployment" --file=examples/deploy.json deployments
+   #+END_SRC
+
+** How to write a deployment request spec file
+   These resources can help in writing the k8s descriptor inside a FogAtlas deployment spec:
+   - https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/
+   - https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/
+   - https://www.json2yaml.com/
+   - https://codebeautify.org/json-escape-unescape
+   - https://codebeautify.org/jsonviewer
+* License
+Copyright 2018 FBK CREATE-NET
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.

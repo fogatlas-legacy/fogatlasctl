@@ -1,0 +1,17 @@
+{
+  "id": "application101",
+  "name": "Face recognition appl",
+  "description": "this is the Face recognition application",
+  "microservices": [
+    {
+      "microservice_id": "microservice1"
+    },
+    {
+      "microservice_id": "microservice2"
+    },
+    {
+      "microservice_id": "microservice3"
+    }
+  ],
+  "status": "up"
+}

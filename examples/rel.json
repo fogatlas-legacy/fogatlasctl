@@ -1,0 +1,24 @@
+{
+  "id": "rel101",
+  "endpoint_a": "reg2",
+  "endpoint_b": "reg3",
+  "bandwidth_capacity": 10000000,
+  "bandwidth_available": 10000000,
+  "latency": 50,
+  "status": "up",
+  "prices":{
+    "bandwidth":{
+      "min_price":108,
+      "max_price":18,
+      "scarcity":18,
+      "unit_price":58
+      },
+    "latency":{
+      "min_price":109,
+      "max_price":19,
+      "scarcity":19,
+      "unit_price":59
+    }
+  },
+  "region_id": "reg2"
+}

@@ -1,0 +1,14 @@
+{
+  "id": "node101",
+  "cpu_capacity": "100000m",
+  "cpu_available": "100000m",
+  "memory_capacity": "100Gi",
+  "memory_available": "100Gi",
+  "disk_capacity": "500Gi",
+  "disk_available": "500Gi",
+  "architecture": "AMD64",
+  "distribution": "Linux",
+  "version": "Ubuntu 16.04",
+  "status": "up",
+  "region_id": "reg1"
+}

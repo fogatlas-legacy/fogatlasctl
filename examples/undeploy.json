@@ -1,0 +1,62 @@
+{
+  "dataflows": [
+    {
+      "bandwidth_required": 10000000,
+      "destination_id": "Camera driver",
+      "latency_required": 100,
+      "source_id": "cam1"
+    },
+    {
+      "bandwidth_required": 9000000,
+      "destination_id": "Face detector",
+      "latency_required": 100,
+      "source_id": "Camera driver"
+    },
+    {
+      "bandwidth_required": 500000,
+      "destination_id": "Face recognition",
+      "latency_required": 550,
+      "source_id": "Face detector"
+    }
+  ],
+  "description": "appl description",
+  "externalendpoint_id": "cam1",
+  "microservices": [
+    {
+      "cpu_required": "200m",
+      "deployment_descriptor": "apiVersion: extensions/v1beta1\nkind: Deployment\nmetadata:\n  name: test-ms1\n  namespace: default\nspec:\n  replicas: 1\n  template:\n    metadata:\n      labels:\n        name: whoami\n    spec:\n      containers:\n        - name: whoami\n          image: jwilder/whoami\n          ports:\n            - name: api\n              containerPort: 8000\n          resources:\n            requests:\n              memory: \"800Mi\"\n              cpu: \"0.2\"",
+      "description": "msr description",
+      "disk_required": "0Mi",
+      "memory_required": "1000Mi",
+      "name": "Camera driver",
+      "price_computed": 0.6263276924437025,
+      "price_required": 1,
+      "region_id": "MESIANO",
+      "region_required": "MESIANO"
+    },
+    {
+      "cpu_required": "200m",
+      "deployment_descriptor": "apiVersion: extensions/v1beta1\nkind: Deployment\nmetadata:\n  name: test-ms2\n  namespace: default\nspec:\n  replicas: 1\n  template:\n    metadata:\n      labels:\n        name: whoami\n    spec:\n      containers:\n        - name: whoami\n          image: jwilder/whoami\n          ports:\n            - name: api\n              containerPort: 8000\n          resources:\n            requests:\n              memory: \"800Mi\"\n              cpu: \"0.2\"",
+      "description": "msr description 2",
+      "disk_required": "0Mi",
+      "memory_required": "800Mi",
+      "name": "Face detector",
+      "price_computed": 11.421062153954962,
+      "price_required": 20,
+      "region_id": "TRENTO"
+    },
+    {
+      "cpu_required": "500m",
+      "deployment_descriptor": "apiVersion: extensions/v1beta1\nkind: Deployment\nmetadata:\n  name: test-ms3\n  namespace: default\nspec:\n  replicas: 1\n  template:\n    metadata:\n      labels:\n        name: whoami\n    spec:\n      containers:\n        - name: whoami\n          image: jwilder/whoami\n          ports:\n            - name: api\n              containerPort: 8000\n          resources:\n            requests:\n              memory: \"800Mi\"\n              cpu: \"0.5\"",
+      "description": "msr description 3",
+      "disk_required": "0Mi",
+      "memory_required": "1200Mi",
+      "name": "Face recognition",
+      "price_computed": 101.38159323093244,
+      "price_required": 200,
+      "region_id": "CLOUD"
+    }
+  ],
+  "name": "default-deployment",
+  "status": "toundeploy"
+}

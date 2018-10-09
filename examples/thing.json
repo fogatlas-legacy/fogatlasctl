@@ -1,0 +1,9 @@
+{
+  "id": "thing101",
+  "description": "centesima thing",
+  "name": "Camera 1",
+  "ip_address": "1.2.3.4",
+  "location": "Povo",
+  "region_id": "reg3",
+  "type": "Camera"
+}

@@ -1,0 +1,9 @@
+{
+  "id": "microservice101",
+  "name": "Camera driver",
+  "description": "Camera Driver description",
+  "status": "up",
+  "node_id": "node13",
+  "application_id": "application1",
+  "region_id": "reg3"
+}

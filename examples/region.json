@@ -1,0 +1,34 @@
+{
+  "id": "region101",
+  "location": "Trento",
+  "description": "a description",
+  "tier": 1,
+  "prices":{
+    "cpu":{
+      "min_price":105,
+      "max_price":15,
+      "scarcity":15,
+      "unit_price":55
+    },
+    "memory":{
+      "min_price":106,
+      "max_price":16,
+      "scarcity":16,
+      "unit_price":56
+    },
+    "disk":{
+      "min_price":107,
+      "max_price":17,
+      "scarcity":17,
+      "unit_price":57
+    }
+  },
+  "relationships": [
+    {
+      "relationship_id": "rel1"
+    },
+    {
+      "relationship_id": "rel2"
+    }
+  ]
+}
